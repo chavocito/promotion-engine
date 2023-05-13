@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-interface PromotionEnquiry
+interface PromotionEnquiry extends \JsonSerializable
 {
 
 }

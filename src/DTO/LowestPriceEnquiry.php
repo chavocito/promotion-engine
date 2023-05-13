@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+
 class LowestPriceEnquiry implements PromotionEnquiry
 {
     private ?int $quantity;
@@ -16,7 +17,25 @@ class LowestPriceEnquiry implements PromotionEnquiry
 
     private ?int $promotion_id;
 
-    private ?int $promotion_name;
+    private ?int $discounted_price;
+
+    /**
+     * @return int|null
+     */
+    public function getDiscountedPrice(): ?int
+    {
+        return $this->discounted_price;
+    }
+
+    /**
+     * @param int|null $discounted_price
+     */
+    public function setDiscountedPrice(?int $discounted_price): void
+    {
+        $this->discounted_price = $discounted_price;
+    }
+
+    private ?string $promotion_name;
 
     /**
      * @return int|null
@@ -115,18 +134,23 @@ class LowestPriceEnquiry implements PromotionEnquiry
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getPromotionName(): ?int
+    public function getPromotionName(): ?string
     {
         return $this->promotion_name;
     }
 
     /**
-     * @param int|null $promotion_name
+     * @param string|null $promotion_name
      */
-    public function setPromotionName(?int $promotion_name): void
+    public function setPromotionName(?string $promotion_name): void
     {
         $this->promotion_name = $promotion_name;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }
