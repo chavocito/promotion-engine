@@ -5,6 +5,8 @@ namespace App\DTO;
 
 class LowestPriceEnquiry implements PromotionEnquiryInterface
 {
+    private ?int $product_id;
+
     private ?int $quantity;
 
     private ?string $request_location;
@@ -139,6 +141,22 @@ class LowestPriceEnquiry implements PromotionEnquiryInterface
     public function getPromotionName(): ?string
     {
         return $this->promotion_name;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getProductId(): ?int
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * @param int|null $product_id
+     */
+    public function setProductId(?int $product_id): void
+    {
+        $this->product_id = $product_id;
     }
 
     /**
