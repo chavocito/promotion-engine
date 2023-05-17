@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\DTO\LowestPriceEnquiry;
-use App\DTO\PromotionEnquiryInterface;
 use App\Entity\Promotion;
 use App\Filter\PromotionsFilterInterface;
 use App\Repository\ProductRepository;
@@ -54,6 +53,6 @@ class ProductsController extends AbstractController
 
         $responseContent = $serializer->serialize($modifiedEnquiry, 'json');
 
-        return new Response($responseContent, 200);
+        return new Response($responseContent, 200, ['Content-Type' => 'application/json'] );
     }
 }
