@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\Promotion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +20,18 @@ class PromotionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Promotion::class);
+    }
+
+    public function findValidForProduct(Product $product, \DateTimeInterface $requestDate)
+    {
+        return $this->createQueryBuilder('p') //build a query on product(p)
+        ->innerJoin('p.productPromotions', 'pp') // to join p to pp(prodPromo)
+        ->andWhere('pp.product = :product') //where promoProduct equals this product
+        ->andWhere('pp.validTo > :requestDate OR pp.validTo IS NULL') //and pp's valid date is in the future
+        ->setParameter('product', $product) //set prod param
+        ->setParameter('requestDate', $requestDate) //set requestDate
+        ->getQuery() //puts together a query from the above specification
+        ->getResult(); // returns query results
     }
 
     public function save(Promotion $entity, bool $flush = false): void
