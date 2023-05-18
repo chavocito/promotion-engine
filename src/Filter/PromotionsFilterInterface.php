@@ -7,5 +7,5 @@ use App\DTO\LowestPriceEnquiry;
 
 interface PromotionsFilterInterface
 {
-    public function apply(LowestPriceEnquiry $enquiry): mixed;
+    public function apply(LowestPriceEnquiry $enquiry, Promotion ...$promotion): mixed;
 }
