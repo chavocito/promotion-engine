@@ -42,6 +42,7 @@ class ProductsController extends AbstractController
 
         if($product) {
             $lowestPriceEnquiry->setProduct($product);
+            $lowestPriceEnquiry->setPrice($product->getPrice());
         }
 
         $promotions = $this->entityManager->getRepository(Promotion::class)->findValidForProduct(
