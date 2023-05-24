@@ -11,6 +11,8 @@ class LowestPriceEnquiry implements PriceEnquiryInterface
     #[Ignore]
     private ?Product $product;
 
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?int $quantity;
 
     private ?string $request_location;
