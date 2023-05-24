@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Cache\PromotionCache;
 use App\DTO\LowestPriceEnquiry;
 use App\Entity\Promotion;
 use App\Filter\PromotionsFilterInterface;
@@ -25,7 +26,13 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/products/{id}/lowest-price', name: 'lowest-price', methods: 'POST')]
-    public function lowestPrice(Request $request, int $id, DTOSerializer $serializer, PromotionsFilterInterface $promotionsFilter): Response
+    public function lowestPrice(
+        Request $request,
+        int $id,
+        DTOSerializer $serializer,
+        PromotionsFilterInterface $promotionsFilter,
+        PromotionCache $cache
+    ): Response
     {
         if ($request->headers->has('force-fail')) {
             return new JsonResponse(
@@ -40,15 +47,13 @@ class ProductsController extends AbstractController
 
         $product = $this->repository->find($id);
 
-        if($product) {
-            $lowestPriceEnquiry->setProduct($product);
-            $lowestPriceEnquiry->setPrice($product->getPrice());
+        if (empty($product)) {
+            return new \Exception(sprintf("Product with id %d not found", $id));
         }
 
-        $promotions = $this->entityManager->getRepository(Promotion::class)->findValidForProduct(
-            $product,
-            date_create_immutable($lowestPriceEnquiry->getRequestDate())
-        );
+        $lowestPriceEnquiry->setProduct($product);
+
+        $promotions = $cache->findValidForProduct($product, $lowestPriceEnquiry->getRequestDate());
 
         $modifiedEnquiry = $promotionsFilter->apply($lowestPriceEnquiry, ...$promotions);
 
