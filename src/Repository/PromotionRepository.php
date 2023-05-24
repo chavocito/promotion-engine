@@ -24,7 +24,7 @@ class PromotionRepository extends ServiceEntityRepository
 
     public function findValidForProduct(Product $product, \DateTimeInterface $requestDate)
     {
-        return $this->createQueryBuilder('p') //build a query on product(p)
+        return $this->createQueryBuilder('p') //build a query on promotions(p)
         ->innerJoin('p.productPromotions', 'pp') // to join p to pp(prodPromo)
         ->andWhere('pp.product = :product') //where promoProduct equals this product
         ->andWhere('pp.validTo > :requestDate OR pp.validTo IS NULL') //and pp's valid date is in the future
