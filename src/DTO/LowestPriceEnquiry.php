@@ -5,6 +5,7 @@ namespace App\DTO;
 
 use App\Entity\Product;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class LowestPriceEnquiry implements PriceEnquiryInterface
 {
@@ -21,6 +22,7 @@ class LowestPriceEnquiry implements PriceEnquiryInterface
 
     private ?string $request_date;
 
+    #[Assert\Positive]
     private ?int $price;
 
     private ?int $promotion_id;
