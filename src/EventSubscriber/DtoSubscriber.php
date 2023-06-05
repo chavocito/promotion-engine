@@ -13,7 +13,7 @@ class DtoSubscriber implements EventSubscriberInterface
     {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents():array
     {
         // TODO: Implement getSubscribedEvents() method.
         return [
